@@ -249,7 +249,7 @@ private fun LogCard(logs: List<String>) {
 }
 
 @Composable
-private fun InfoCard(title: String, icon: @Composable () -> Unit, content: @Composable Column.() -> Unit) {
+private fun InfoCard(title: String, icon: @Composable () -> Unit, content: @Composable ColumnScope.() -> Unit) {
     Card(
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHighest),
