@@ -3,7 +3,11 @@
 삼성 갤럭시에서 아래 설정 명령을 Shizuku 우선으로 원터치 실행하는 Kotlin + Jetpack Compose 앱입니다.
 
 ```bash
+# ?? ??
 settings put system csc_pref_camera_forced_shuttersound_key 0
+
+# ?? ????? ????
+settings put system csc_pref_camera_forced_shuttersound_key 1
 ```
 
 ## 주요 기능

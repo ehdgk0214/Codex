@@ -43,12 +43,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val preferences = SettingsRepository(application)
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+    private var pendingAction: PendingShutterAction = PendingShutterAction.ApplySilent
 
     private val permissionListener = Shizuku.OnRequestPermissionResultListener { _, grantResult ->
         val granted = grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED
         addLog(if (granted) "Shizuku 권한이 승인되었습니다." else "Shizuku 권한이 거부되었습니다.")
         refreshShizukuState()
-        if (granted) applySilentMode()
+        if (granted) {
+            when (pendingAction) {
+                PendingShutterAction.ApplySilent -> applySilentMode()
+                PendingShutterAction.RestoreSound -> restoreShutterSound()
+            }
+        }
     }
 
     init {
@@ -100,6 +106,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 val message = result.error.ifBlank { result.output.ifBlank { "종료 코드 ${result.exitCode}" } }
                 addLog("실패: $message")
+                NotificationHelper.showResult(getApplication(), false, message)
+            }
+            _uiState.update { it.copy(isApplying = false) }
+        }
+    }
+
+
+    fun restoreShutterSound() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isApplying = true) }
+            addLog("?? ??: ${CameraSetting.ENABLE_FORCED_SHUTTER_SOUND_COMMAND}")
+            val result = shizuku.execute(CameraSetting.ENABLE_FORCED_SHUTTER_SOUND_COMMAND)
+            if (result.isSuccess) {
+                preferences.setAutoApplyAfterBoot(false)
+                addLog("??: ?? ??? ?? ??? ??? 1? ??????.")
+                addLog("?? ?? ???? ?? ????. ?? ???? ??? ???? ? ???.")
+                _uiState.update { it.copy(shutterStatus = ShutterStatus.Forced, autoApplyAfterBoot = false) }
+                NotificationHelper.showResult(getApplication(), true, "??? ??? ?? ??? ?? ???????.")
+            } else {
+                val message = result.error.ifBlank { result.output.ifBlank { "?? ?? ${result.exitCode}" } }
+                addLog("??: $message")
                 NotificationHelper.showResult(getApplication(), false, message)
             }
             _uiState.update { it.copy(isApplying = false) }
