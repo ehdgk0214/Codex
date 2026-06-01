@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">무음카메라 자동설정</string>
+    <string name="shizuku_authority">com.silentcam.auto.shizuku</string>
+</resources>
