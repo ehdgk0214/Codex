@@ -58,8 +58,8 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.10.0")
 
     // Shizuku 공식 API: adb/root 권한을 앱에서 안전하게 빌려 shell 명령을 실행합니다.
-    implementation("dev.rikka.shizuku:api:13.1.5")
-    implementation("dev.rikka.shizuku:provider:13.1.5")
+    implementation("dev.rikka.shizuku:api:13.1.0")
+    implementation("dev.rikka.shizuku:provider:13.1.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
