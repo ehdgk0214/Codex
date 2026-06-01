@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.VolumeOff
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -154,6 +155,8 @@ fun SilentCamApp(viewModel: MainViewModel = viewModel()) {
                 }
             )
 
+            QuickGuideCard()
+
             LogCard(logs = state.logs)
             Spacer(Modifier.height(16.dp))
         }
@@ -235,6 +238,21 @@ private fun WirelessAdbCard(ip: String, onOpenDeveloperOptions: () -> Unit) {
         Text("1. 개발자 옵션 → 무선 디버깅 켜기\n2. '페어링 코드로 기기 페어링' 선택\n3. PC/Termux에서 adb pair IP:포트 코드 입력\n4. 이후에는 Shizuku를 무선 디버깅으로 시작")
         Spacer(Modifier.height(10.dp))
         OutlinedButton(onClick = onOpenDeveloperOptions) { Text("개발자 옵션 열기") }
+    }
+}
+
+
+@Composable
+private fun QuickGuideCard() {
+    InfoCard(title = "?? ?? ???", icon = { Icon(Icons.Default.Info, null) }) {
+        Text("?? ??? ?", fontWeight = FontWeight.Bold)
+        Text("1. Shizuku ?? ? Shizuku ??? ?? ????? ??\n2. ? ??? ?? ??\n3. '??? ?? ????' ?? ???")
+        Spacer(Modifier.height(10.dp))
+        Text("???? ??? ?", fontWeight = FontWeight.Bold)
+        Text("'??? ???? ????'? ??? ???? 1? ???? ?? ???? ?? ??? ??? ?? ???? ??? ?? ???.")
+        Spacer(Modifier.height(10.dp))
+        Text("?? ??", fontWeight = FontWeight.Bold)
+        Text("?? ??? '??'?? ??? 0, '??? ???'?? ??? 1???. ??/?? ??? ?? ??? ?? ??? ???.", style = MaterialTheme.typography.bodySmall)
     }
 }
 
